@@ -6,12 +6,15 @@ import (
 
 	"webapp-core/config"
 	"webapp-core/core/routers"
+	"webapp-core/util/logger"
 )
 
 const fmtDBString = "host=%s user=%s password=%s dbname=%s port=%d sslmode=disable"
 
 func main() {
 	serverConfig := config.New()
+	serverLogger := logger.New(serverConfig.Server.Debug)
+
 	dbString := fmt.Sprintf(fmtDBString,
 		serverConfig.DB.Host,
 		serverConfig.DB.Username,
@@ -22,7 +25,7 @@ func main() {
 	// go to db connection
 	fmt.Println("connect db with ", dbString)
 
-	routers := routers.New()
+	routers := routers.New(serverLogger)
 
 	// create server
 	apiServer := &http.Server{
