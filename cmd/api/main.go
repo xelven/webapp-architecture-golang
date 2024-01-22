@@ -26,7 +26,7 @@ func main() {
 
 	// create server
 	apiServer := &http.Server{
-		Addr:         fmt.Sprintf(":%d", 8080),
+		Addr:         fmt.Sprintf(":%d", serverConfig.Server.Port),
 		Handler:      routers,
 		ReadTimeout:  serverConfig.Server.TimeoutRead,
 		WriteTimeout: serverConfig.Server.TimeoutWrite,
