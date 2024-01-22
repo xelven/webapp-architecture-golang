@@ -37,8 +37,9 @@ func main() {
 	}
 
 	// start server
+	serverLogger.Info().Msgf("Starting server %v", apiServer.Addr)
 	if err := apiServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		fmt.Println("Server startup failure")
+		serverLogger.Fatal().Err(err).Msg("Server startup failure")
 	}
 
 }

@@ -7,12 +7,10 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func New(log *zerolog.Logger) *chi.Mux {
+func NewProductsRouter(log *zerolog.Logger) chi.Router {
 	root := chi.NewRouter()
 
-	root.Get("/health", health.Read)
-
-	root.Mount("/products", NewProductsRouter(log))
+	root.Get("/", health.Read)
 
 	return root
 }
