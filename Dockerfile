@@ -7,5 +7,9 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 
-RUN go build -ldflags '-w -s' -a -o ./bin/api ./cmd/api
+RUN go get github.com/githubnemo/CompileDaemon
+RUN go install github.com/githubnemo/CompileDaemon
+
 EXPOSE 8080
+
+# ENTRYPOINT CompileDaemon --build="go build ./cmd/api/main.go" --command="./main"

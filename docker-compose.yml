@@ -3,8 +3,12 @@ services:
 
   webapp-core:
     build: .
+    volumes:
+      - ./:/webapp-core
     env_file: .env
     ports:
       - "8080:8080"
-    command: [ "sh", "-c", "go run cmd/api/main.go" ]
+    # command: [ "sh", "-c", "./bin/api" ]
+    # command: [ "sh", "-c", "go run cmd/api/main.go" ]
+    command: [ "sh", "-c", "CompileDaemon --build='go build ./cmd/api/main.go' --command=./main"]
     restart: always
