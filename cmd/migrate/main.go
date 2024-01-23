@@ -86,3 +86,5 @@ Commands:
 // example to run migrate with docker container,
 // `docker compose up -d` first
 // `docker compose exec webapp-core go run /webapp-core/cmd/migrate/main.go create create_products_table sql`
+// run migrate up
+// `docker compose exec webapp-core go run /webapp-core/cmd/migrate/main.go up`

@@ -1,7 +1,6 @@
 package routers
 
 import (
-	"webapp-core/core/domain/health"
 	"webapp-core/core/domain/product"
 
 	"github.com/go-chi/chi/v5"
@@ -14,7 +13,7 @@ func NewProductsRouter(log *zerolog.Logger, db *gorm.DB) chi.Router {
 
 	productAPI := product.New(log, db)
 
-	products.Get("/", health.Read)
+	products.Get("/", productAPI.GetList)
 	products.Post("/", productAPI.Create)
 
 	return products

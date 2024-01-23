@@ -20,8 +20,6 @@ type Product struct {
 	DeletedAt     gorm.DeletedAt
 }
 
-type Products []*Product
-
 // Request
 type PostProductForm struct {
 	Name          string `json:"name" form:"required,max=255"`
@@ -29,6 +27,17 @@ type PostProductForm struct {
 	PublishedDate string `json:"published_date" form:"required,datetime=2006-01-02"`
 	ImageURL      string `json:"image_url" form:"url"`
 	Description   string `json:"description"`
+}
+
+// Response struct
+type ProductResponse struct {
+	ID            string    `json:"id"`
+	Name          string    `json:"name"`
+	Creator       string    `json:"creator"`
+	PublishedDate string    `json:"published_date"`
+	ImageURL      string    `json:"image_url"`
+	Description   string    `json:"description"`
+	UpdatedAt     time.Time `json:"last_update"`
 }
 
 // request body to db model
@@ -42,4 +51,28 @@ func (f *PostProductForm) FormToModel() *Product {
 		ImageURL:      f.ImageURL,
 		Description:   f.Description,
 	}
+}
+
+type Products []*Product
+
+// db model to response body
+func (b *Product) ProductToResponse() *ProductResponse {
+	return &ProductResponse{
+		ID:            b.ID.String(),
+		Name:          b.Name,
+		Creator:       b.Creator,
+		PublishedDate: b.PublishedDate.Format("2006-01-02"),
+		ImageURL:      b.ImageURL,
+		Description:   b.Description,
+		UpdatedAt:     b.UpdatedAt,
+	}
+}
+
+func (products Products) ProductsToResponse() []*ProductResponse {
+	productsResponse := make([]*ProductResponse, len(products))
+	for i, v := range products {
+		productsResponse[i] = v.ProductToResponse()
+	}
+
+	return productsResponse
 }

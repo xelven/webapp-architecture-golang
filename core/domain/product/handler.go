@@ -2,6 +2,7 @@ package product
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -43,4 +44,23 @@ func (api *API) Create(response http.ResponseWriter, request *http.Request) {
 	}
 
 	response.WriteHeader(http.StatusCreated)
+}
+
+func (api *API) GetList(w http.ResponseWriter, r *http.Request) {
+
+	products, error := api.querier.getList()
+	if error != nil {
+		err.ServerError(w, err.RespDBDataAccessFailure)
+		return
+	}
+
+	if len(products) == 0 {
+		fmt.Fprint(w, "[]")
+		return
+	}
+
+	if error := json.NewEncoder(w).Encode(products.ProductsToResponse()); error != nil {
+		err.ServerError(w, err.RespJSONEncodeFailure)
+		return
+	}
 }

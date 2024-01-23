@@ -7,6 +7,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	gormlogger "gorm.io/gorm/logger"
+	"gorm.io/plugin/dbresolver"
 
 	"webapp-core/config"
 	"webapp-core/core/routers"
@@ -34,13 +35,25 @@ func main() {
 		dbLogLevel = gormlogger.Error
 	}
 
-	masterDataSource, err := gorm.Open(postgres.Open(dbString), &gorm.Config{Logger: gormlogger.Default.LogMode(dbLogLevel)})
+	// enable gorm db logger its will slow, make sure its disabled LogMode in Production env
+	dataSource, err := gorm.Open(postgres.Open(dbString), &gorm.Config{Logger: gormlogger.Default.LogMode(dbLogLevel)})
 	if err != nil {
 		serverLogger.Fatal().Err(err).Msg("DB connection start failure")
 		return
 	}
+	dataSource.Use(dbresolver.Register(
+		dbresolver.Config{
+			Replicas: []gorm.Dialector{
+				postgres.Open(dbString),
+				postgres.Open(dbString),
+			},
+			Policy: dbresolver.RandomPolicy{},
+			// print sources/replicas mode in logger
+			TraceResolverMode: serverConfig.DB.Debug,
+		},
+	))
 
-	routers := routers.New(serverLogger, masterDataSource)
+	routers := routers.New(serverLogger, dataSource)
 
 	// create server
 	apiServer := &http.Server{
