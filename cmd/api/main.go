@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	gormlogger "gorm.io/gorm/logger"
+
 	"webapp-core/config"
 	"webapp-core/core/routers"
 	"webapp-core/util/logger"
@@ -23,9 +27,20 @@ func main() {
 		serverConfig.DB.Port,
 	)
 	// go to db connection
-	fmt.Println("connect db with ", dbString)
+	var dbLogLevel gormlogger.LogLevel
+	if serverConfig.DB.Debug {
+		dbLogLevel = gormlogger.Info
+	} else {
+		dbLogLevel = gormlogger.Error
+	}
 
-	routers := routers.New(serverLogger)
+	masterDataSource, err := gorm.Open(postgres.Open(dbString), &gorm.Config{Logger: gormlogger.Default.LogMode(dbLogLevel)})
+	if err != nil {
+		serverLogger.Fatal().Err(err).Msg("DB connection start failure")
+		return
+	}
+
+	routers := routers.New(serverLogger, masterDataSource)
 
 	// create server
 	apiServer := &http.Server{
