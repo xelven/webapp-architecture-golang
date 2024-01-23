@@ -12,7 +12,7 @@ func NewQuerier(db *gorm.DB) *Querier {
 	}
 }
 
-func (r *Querier) getList() (Products, error) {
+func (r *Querier) GetList() (Products, error) {
 	products := make([]*Product, 0)
 	if err := r.db.Find(&products).Error; err != nil {
 		return nil, err

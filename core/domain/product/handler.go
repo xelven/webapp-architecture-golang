@@ -48,7 +48,7 @@ func (api *API) Create(response http.ResponseWriter, request *http.Request) {
 
 func (api *API) GetList(w http.ResponseWriter, r *http.Request) {
 
-	products, error := api.querier.getList()
+	products, error := api.querier.GetList()
 	if error != nil {
 		err.ServerError(w, err.RespDBDataAccessFailure)
 		return
