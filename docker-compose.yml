@@ -2,7 +2,9 @@ version: '3.9'
 services:
 
   webapp-core:
-    build: .
+    build:
+      dockerfile: Dockerfile.dev
+      context: .
     volumes:
       - ./:/webapp-core
     env_file: .env
