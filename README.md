@@ -1,16 +1,29 @@
-# webapp-architecture-golang
+## webapp-architecture-golang
 Purpose is create an Web Application foundation construction on production level, any product/projects could reuse it from 0 to 1 in the future.
-First version focus on Restful API service. 
+* First version focus on Restful API service.
+* The idiomatic structure based on the resource-oriented design.
+* The usage of Docker, Docker compose, Alpine images, and linters on development.
+* key foundation:
+  * code level db replicate implementation. 
+  * Server syslog.
+  * structure design flexible & easy to scale up.
 
+The idiomatic structure based on the resource-oriented design.
 
-# folder structure
+## 📦 container image size 
+* DB: 249MB
+* API: 
+  * Development environment: 666MB
+  * Production environment: 19MB ; 💡`docker build -f Dockerfile . -t allen_webapp_core`
+
+## 🗂️ folder structure
 ```
 xxxxapp
 ├── cmd
 │  ├── api
 │  │  └── main.go // Restful API entry point
-│  ├── api2
-│  │  └── main.go // Restful API 2 entry point 
+│  ├── apix
+│  │  └── main.go // Restful API x entry point 
 │  └── migrate 
 │     └── main.go // db migration entry point
 │
@@ -50,7 +63,8 @@ xxxxapp
 ├── go.sum
 │
 ├── docker-compose.yml
-└── Dockerfile.dev
+├── Dockerfile.dev //local dev, hot reload included
+└── Dockerfile // production build
 ```
 
 
