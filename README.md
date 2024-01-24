@@ -10,10 +10,10 @@ Purpose is create an Web Application foundation construction on production level
   * structure design flexible & easy to scale up.
  
 * todo list: 
+  * find a way to do the api parameters validation more consistent & smarter 
   * add user table /  user sign-up/in api.
   * user auth check in router middleware with jwt check
   * create PostgreSQL script for init enable UUID & create multiple user with different role. (create real slave for local)
-  * add request parameters validator check with lib.
   * Benchmark big sql query with SQL Builder.
   * inlcuding sentry.
   * Server syslog with datadog.
