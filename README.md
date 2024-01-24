@@ -12,7 +12,7 @@ xxxxapp
 │  └── migrate 
 │     └── main.go // db migration entry point
 │
-├── api
+├── core
 │  ├── middleware
 │  │  └── content_type_json.go // anything custom need during api call, such as content_type,basic auth,CROS 
 │  ├── router
@@ -48,7 +48,7 @@ xxxxapp
 ├── go.sum
 │
 ├── docker-compose.yml
-├── Dockerfile.dev
+└── Dockerfile.dev
 ```
 
 
