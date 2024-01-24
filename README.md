@@ -45,9 +45,9 @@ xxxxapp
 │     └── main.go // db migration entry point
 │
 ├── core
-│  ├── middleware
-│  │  └── content_type_json.go // anything custom need during api call, such as content_type,basic auth,CROS 
-│  ├── router
+│  ├── routers
+│  │  ├── middleware
+│  │  │  └── content_type_json.go // anything custom need during api call, such as content_type,basic auth,CROS 
 │  │  └── router.go  //api router list
 │  │
 │  └── resource or domain 
