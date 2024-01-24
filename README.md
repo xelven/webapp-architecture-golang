@@ -3,10 +3,25 @@ Purpose is create an Web Application foundation construction on production level
 * First version focus on Restful API service.
 * The idiomatic structure based on the resource-oriented design.
 * The usage of Docker, Docker compose, Alpine images, and linters on development.
+* unit test with mock db
 * key foundation:
   * code level db replicate implementation. 
   * Server syslog.
   * structure design flexible & easy to scale up.
+ 
+* todo list: 
+  * add user table /  user sign-up/in api.
+  * user auth check in router middleware with jwt check
+  * create PostgreSQL script for init enable UUID & create multiple user with different role. (create real slave for local)
+  * add request parameters validator check with lib.
+  * Benchmark big sql query with SQL Builder.
+  * inlcuding sentry.
+  * Server syslog with datadog.
+  * didn't decide which where should unit test should put it(right beside the source file or different folder) https://www.reddit.com/r/golang/comments/u23z67/why_are_tests_file_created_right_beside_the/
+  * CI / CD integration with circleci https://circleci.com/.
+  * documents generation didn't decide.
+  * looking for local bucket solution for GCP services, something like localstack provided.
+  * 
 
 The idiomatic structure based on the resource-oriented design.
 
@@ -23,7 +38,9 @@ xxxxapp
 │  ├── api
 │  │  └── main.go // Restful API entry point
 │  ├── apix
-│  │  └── main.go // Restful API x entry point 
+│  │  └── main.go // Restful API x entry point
+│  ├── websocket
+│  │  └── main.go // websocket API entry point, split if is in-need.
 │  └── migrate 
 │     └── main.go // db migration entry point
 │
@@ -39,8 +56,8 @@ xxxxapp
 │     ├── product   // domian product provide all product related function
 │     │  ├── handler.go     // business logic handling, called from router
 │     │  ├── model.go       // all this (product) domain related struct
-│     │  └── repository.go  // all db related cud here
-│     │  └── querier.go     // all db related r here
+│     │  └── repository.go  // all db related CUD here
+│     │  └── querier.go     // all db related R here <- read only
 │     └── common
 │        └── err 
 │           └── err.go  // common error handle response
