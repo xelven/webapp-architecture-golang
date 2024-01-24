@@ -8,7 +8,9 @@ First version focus on Restful API service. 
 xxxxapp
 ├── cmd
 │  ├── api
-│  │  └── main.go // Restful API entry point 
+│  │  └── main.go // Restful API entry point
+│  ├── api2
+│  │  └── main.go // Restful API 2 entry point 
 │  └── migrate 
 │     └── main.go // db migration entry point
 │
