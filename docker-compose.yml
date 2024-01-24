@@ -10,9 +10,7 @@ services:
     env_file: .env
     ports:
       - "8080:8080"
-    # command: [ "sh", "-c", "./bin/api" ]
-    # command: [ "sh", "-c", "go run cmd/api/main.go" ]
-    command: [ "sh", "-c", "CompileDaemon --build='go build ./cmd/api/main.go' --command=./main"]
+    command: [ "sh", "-c", "go run cmd/migrate/main.go up && CompileDaemon --build='go build ./cmd/api/main.go' --command=./main"]
     restart: always
   
   db:
