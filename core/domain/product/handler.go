@@ -46,21 +46,25 @@ func (api *API) Create(response http.ResponseWriter, request *http.Request) {
 	response.WriteHeader(http.StatusCreated)
 }
 
-func (api *API) GetList(w http.ResponseWriter, r *http.Request) {
+func (api *API) GetList(response http.ResponseWriter, request *http.Request) {
 
-	products, error := api.querier.GetList()
+	offset := 0
+	limit := 10
+	//todo thinking a about to have better way
+	products, error := api.querier.List(offset, limit)
+	// products, error := api.querier.GetList()
 	if error != nil {
-		err.ServerError(w, err.RespDBDataAccessFailure)
+		err.ServerError(response, err.RespDBDataAccessFailure)
 		return
 	}
 
 	if len(products) == 0 {
-		fmt.Fprint(w, "[]")
+		fmt.Fprint(response, "[]")
 		return
 	}
 
-	if error := json.NewEncoder(w).Encode(products.ProductsToResponse()); error != nil {
-		err.ServerError(w, err.RespJSONEncodeFailure)
+	if error := json.NewEncoder(response).Encode(products.ProductsToResponse()); error != nil {
+		err.ServerError(response, err.RespJSONEncodeFailure)
 		return
 	}
 }
